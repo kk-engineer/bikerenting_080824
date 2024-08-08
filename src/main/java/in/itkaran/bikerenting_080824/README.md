@@ -69,3 +69,16 @@ Can include but not limited to:
   
 * /rentals/bill/{pnr}
     * GET - Get bill for a customer by PNR
+
+## Database Connection
+Note: All the below command need to be run on MySql
+via a client such as MySQL Workbench or command line.
+
+* Create Database 
+  * create database bike_service_aug_24;
+
+* Create User
+  * create user bike_service_user_aug_24;
+
+* Grant Privileges to above User (to work without password)
+  * grant all privileges on bike_service_aug_24.* to bike_service_user_aug_24;
