@@ -1,0 +1,125 @@
+classDiagram
+    class Vehicle {
+        + Long vehicleId
+        + String vehicleName
+        + VehicleType vehicleType
+        + String registrationNumber
+        + SizeType sizeType
+        + VehicleStatus vehicleStatus
+        + FuelType fuelType
+        + StyleType styleType
+    }
+    class VehicleType {
+        <<enumeration>>
+        BIKE,
+        SCOOTER
+    }
+    class SizeType {
+        <<enumeration>>
+        SMALL,
+        MEDIUM,
+        LARGE
+    }
+    class VehicleStatus {
+        <<enumeration>>
+        AVAILABLE,
+        RENTED,
+        DAMAGED
+    }
+    class FuelType {
+        <<enumeration>>
+        PETROL,
+        DIESEL,
+        ELECTRIC
+    }
+    class StyleType {
+        <<enumeration>>
+        STANDARD,
+        SPORTS,
+        CRUISER
+    }
+    Vehicle "*" --o "1" VehicleType : has
+    Vehicle "*" --o "1" SizeType : has
+    Vehicle "*" --o "1" VehicleStatus : has
+    Vehicle "*" --o "1" FuelType : has
+    Vehicle "*" --o "1" StyleType : has
+
+
+    class Customer {
+        + Long customerId
+        + String name
+        + String email
+        + String phone
+        + SizeType sizeType
+    }
+
+    Customer "*" --o "1" SizeType : has
+
+    class Bill {
+        + Long billId
+        + int amount
+        + Date billDate
+        + Rental rental;
+        + List~Payment~ payments
+        + BillStatus billStatus
+    }
+
+    class BillStatus {
+        <<enumeration>>
+        PAID,
+        PENDING
+    }
+
+    Bill "*" --o "1" BillStatus : has
+
+    class Payment {
+        + Long paymentId
+        + int amount
+        + Date paymentDate
+        + Bill bill
+        + PaymentStatus paymentStatus
+        + PaymentMode paymentMode
+        + String referenceId    // PaymentGateway
+    }
+
+    class PaymentStatus {
+        <<enumeration>>
+        PENDING,
+        SUCCESS,
+        FAILED
+    }
+
+    class PaymentMode {
+        <<enumeration>>
+        CREDIT_CARD,
+        DEBIT_CARD,
+        NET_BANKING,
+        UPI
+    }
+
+    Bill "1" --o "*" Payment : has
+    Payment "*" --o "1" PaymentStatus : has
+    Payment "*" --o "1" PaymentMode : has
+
+    class Rental {
+        + Long rentalId
+        + String pnr
+        + Date startTime
+        + Date endTime
+        + RentalStatus rentalStatus
+        + Vehicle vehicle
+        + Customer customer
+        + Bill bill
+    }
+
+    class RentalStatus {
+        <<enumeration>>
+        ACTIVE,
+        ENDED,
+        CANCELLED
+    }
+
+    Rental "*" --o "1" Vehicle : has
+    Rental "*" --o "1" Customer : has
+    Rental "1" --o "1" Bill : has
+    Rental "*" --o "1" RentalStatus : has
